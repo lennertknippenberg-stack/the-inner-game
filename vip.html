@@ -34,8 +34,17 @@ iframe{display:block;width:100%;border:0}
   </div>
   <p class="foot">The Inner Game · NoFiltr · Medellín · October 3, 2026 · <a href="/">Back to site</a></p>
 </div>
+<script src="https://tally.so/widgets/embed.js" onload="if(window.Tally)Tally.loadEmbeds()"></script>
 <script>
-(function(){var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function(e){e.src=e.dataset.tallySrc})};if("undefined"!=typeof Tally)v();else if(null==d.querySelector('script[src="'+w+'"]')){var s=d.createElement("script");s.src=w;s.onload=v;s.onerror=v;d.body.appendChild(s);}})();
+  // Bulletproof: load the form directly (embed.js still handles auto-resize via postMessage).
+  function loadTally(){
+    document.querySelectorAll('iframe[data-tally-src]').forEach(function(f){
+      if(!f.src){ f.src = f.getAttribute('data-tally-src'); }
+    });
+    if(window.Tally && Tally.loadEmbeds){ try{ Tally.loadEmbeds(); }catch(e){} }
+  }
+  if(document.readyState!=='loading'){ loadTally(); } else { document.addEventListener('DOMContentLoaded', loadTally); }
+  window.addEventListener('load', loadTally);
 </script>
 </body>
 </html>
