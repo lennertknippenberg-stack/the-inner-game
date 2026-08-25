@@ -403,7 +403,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
         <h3>VIP</h3>
         <div class="p">$496</div>
         <p class="s">Everything in The Room + the VIP Sensorial Dinner in the evening</p>
-        <a class="btn orange cta-link cta-vip" href="#">Claim VIP →</a>
+        <a class="btn orange cta-link" href="#">Claim VIP →</a>
       </div>
     </div>
     <p class="anchor rv">Coaching at this level runs easily at <b>$500–$1,000 an hour.</b> This is a full day in the room, with 7- and 8-figure founders, for less than a dinner out in Poblado.</p>
@@ -416,6 +416,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
     <h2 class="rv">The honest <span class="o">FAQ</span></h2>
     <div class="faq rv">
       <details><summary>Where exactly is it?</summary><p>A premium venue in Medellín, video-ready, proper sound, built for 30. The exact address is sent to ticket holders the week of the event.</p></details>
+      <details><summary>How do we get there?</summary><p>Transportation is included. We depart together from a central meeting point in El Poblado and bring you back after — no navigating unfamiliar roads on the day. The exact pickup spot and time are sent to ticket holders the week of the event.</p></details>
       <details><summary>What time does it run?</summary><p>Doors 9:30am. We run 10:00am-6:00pm, one engineered full day. The VIP Sensorial Dinner follows in the evening for VIP ticket holders.</p></details>
       <details><summary>What language is it in?</summary><p>English.</p></details>
       <details><summary>Is food included?</summary><p>Coffee and refreshments are covered, and a light lunch is included. The full VIP Sensorial Dinner is included on the VIP ticket.</p></details>
@@ -433,7 +434,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   <p class="rv" data-cfg="finalSub">Saturday · Medellín · 30 seats. The Inner Game is where the next level actually starts.</p>
   <div class="cta rv" style="justify-content:center;gap:16px">
     <a class="btn cta-link" href="#">Save My Seat — $397</a>
-    <a class="btn cta-link cta-vip" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
+    <a class="btn cta-link" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
   </div>
 </div>
 
@@ -445,10 +446,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
      ============================================================ -->
 <script>
 const CONFIG = {
-  /* --- checkout: buttons go to Stripe first, then Stripe redirects to the Tally form ---
-     Premium (regular) buttons -> ctaUrl ; VIP buttons -> ctaVipUrl. */
-  ctaUrl:    "https://buy.stripe.com/9B6fZhgMXb6jgV8ejR1B60s",   // Premium
-  ctaVipUrl: "https://buy.stripe.com/3cI8wP2W7der20e5Nl1B60t",   // VIP
+  /* --- where every "Claim Your Seat" button points --- */
+  ctaUrl: "https://lu.ma/q50e717w",
 
   /* --- countdown target: the moment the event starts (ISO 8601) ---
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
@@ -504,11 +503,9 @@ const CONFIG = {
     document.querySelectorAll('[data-cfg-html="'+k+'"]').forEach(el=>el.innerHTML=v);
   }
 
-  // CTA buttons -> Stripe checkout. VIP buttons (.cta-vip) get the VIP link; the rest get Premium.
-  // After payment, Stripe redirects the buyer to the matching Tally questionnaire (set in Stripe).
+  // every CTA button -> ctaUrl
   document.querySelectorAll('.cta-link').forEach(a=>{
-    a.href = a.classList.contains('cta-vip') ? C.ctaVipUrl : C.ctaUrl;
-    a.rel = "noopener";
+    a.href = C.ctaUrl; a.target = "_blank"; a.rel = "noopener";
   });
 
   // host photos
