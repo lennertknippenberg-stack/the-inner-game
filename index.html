@@ -403,7 +403,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
         <h3>VIP</h3>
         <div class="p">$496</div>
         <p class="s">Everything in The Room + the VIP Sensorial Dinner in the evening</p>
-        <a class="btn orange cta-link" href="#">Claim VIP →</a>
+        <a class="btn orange cta-link cta-vip" href="#">Claim VIP →</a>
       </div>
     </div>
     <p class="anchor rv">Coaching at this level runs easily at <b>$500–$1,000 an hour.</b> This is a full day in the room, with 7- and 8-figure founders, for less than a dinner out in Poblado.</p>
@@ -433,7 +433,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   <p class="rv" data-cfg="finalSub">Saturday · Medellín · 30 seats. The Inner Game is where the next level actually starts.</p>
   <div class="cta rv" style="justify-content:center;gap:16px">
     <a class="btn cta-link" href="#">Save My Seat — $397</a>
-    <a class="btn cta-link" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
+    <a class="btn cta-link cta-vip" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
   </div>
 </div>
 
@@ -445,8 +445,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
      ============================================================ -->
 <script>
 const CONFIG = {
-  /* --- where every "Claim Your Seat" button points --- */
-  ctaUrl: "https://lu.ma/q50e717w",
+  /* --- the two Tally forms (open as a popup ON this page, never leaving it) ---
+     Premium (regular) buttons -> ctaUrl ; VIP buttons -> ctaVipUrl.
+     Paste each form's Tally share link (e.g. https://tally.so/r/abc123). */
+  ctaUrl:    "https://tally.so/r/44VLzX",
+  ctaVipUrl: "https://tally.so/r/VLOVyv",
 
   /* --- countdown target: the moment the event starts (ISO 8601) ---
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
@@ -502,9 +505,23 @@ const CONFIG = {
     document.querySelectorAll('[data-cfg-html="'+k+'"]').forEach(el=>el.innerHTML=v);
   }
 
-  // every CTA button -> ctaUrl
+  // Load Tally's embed script so forms can open as a popup over this page.
+  (function(){ var s=document.createElement('script'); s.src="https://tally.so/widgets/embed.js"; document.head.appendChild(s); })();
+
+  // CTA buttons open the Tally form as a modal ON this page (no navigation away).
+  // VIP buttons (.cta-vip) open the VIP form; the rest open Premium.
+  // Falls back to a new-tab link if the embed script is blocked.
+  const formId = u => (u||"").split('?')[0].replace(/\/$/,'').split('/').pop();
   document.querySelectorAll('.cta-link').forEach(a=>{
-    a.href = C.ctaUrl; a.target = "_blank"; a.rel = "noopener";
+    const url = a.classList.contains('cta-vip') ? C.ctaVipUrl : C.ctaUrl;
+    const id  = formId(url);
+    a.href = url; a.rel = "noopener";
+    a.addEventListener('click', e=>{
+      if (window.Tally && Tally.openPopup) {
+        e.preventDefault();
+        Tally.openPopup(id, { layout:"modal", width:700, overlay:true });
+      } // else: let the href open the form in a new tab as fallback
+    });
   });
 
   // host photos
