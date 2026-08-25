@@ -188,7 +188,25 @@ details p{margin-top:14px;font-size:14px;color:var(--dim);max-width:60ch}
 footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
 @media(max-width:760px){.twocol{grid-template-columns:1fr}.hostgrid{grid-template-columns:1fr;gap:40px}.mission .in{grid-template-columns:1fr;text-align:center}.crescent{margin:0 auto}.ag{grid-template-columns:1fr;gap:6px}.bar .t{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}.rv{opacity:1;transform:none;transition:none}}
+/* embedded Stripe checkout — dark modal */
+.co-modal{position:fixed;inset:0;z-index:200;display:none}
+.co-modal.on{display:block}
+.co-backdrop{position:absolute;inset:0;background:rgba(5,5,5,.85);backdrop-filter:blur(6px)}
+.co-panel{position:relative;width:min(560px,94vw);margin:4vh auto;max-height:92vh;overflow:auto;background:#0d0d0d;border:1px solid var(--goldline);border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);padding:18px 18px 24px}
+.co-close{position:absolute;top:8px;right:12px;background:none;border:0;color:var(--dim);font-size:30px;line-height:1;cursor:pointer;z-index:3}
+.co-close:hover{color:var(--gold)}
+.co-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:2px 30px 14px 6px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+.co-brand{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:var(--gold)}
+.co-secure{font-size:11px;color:var(--dim);white-space:nowrap}
+.co-err{color:var(--orange);font-size:13px;padding:0 6px 10px;text-align:center}
+.co-load{color:var(--dim);text-align:center;padding:44px 0;font-size:14px}
+#co-embed{min-height:180px}
+.co-thankspanel{text-align:center;padding:44px 30px}
+.co-tick{width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.co-thankspanel h3{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.co-thankspanel p{color:var(--dim);font-size:14px;max-width:42ch;margin:0 auto 24px;line-height:1.6}
 </style>
+<script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
@@ -438,6 +456,27 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   </div>
 </div>
 
+<!-- Embedded Stripe checkout (dark modal, stays on this domain) -->
+<div class="co-modal" id="co-modal" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="co-backdrop" id="co-backdrop"></div>
+  <div class="co-panel">
+    <button class="co-close" id="co-close" aria-label="Close checkout">×</button>
+    <div class="co-head"><span class="co-brand">The Inner Game</span><span class="co-secure">🔒 Secure checkout · Stripe</span></div>
+    <div class="co-err" id="co-err"></div>
+    <div id="co-embed"></div>
+  </div>
+</div>
+<!-- Post-payment thank-you -->
+<div class="co-modal" id="co-thanks" aria-label="Thank you">
+  <div class="co-backdrop" onclick="document.getElementById('co-thanks').classList.remove('on')"></div>
+  <div class="co-panel co-thankspanel">
+    <div class="co-tick">✓</div>
+    <h3>You're in.</h3>
+    <p>Payment confirmed. Check your email for your receipt — we'll send venue and transport details the week of the event. See you in Medellín.</p>
+    <button class="btn" onclick="document.getElementById('co-thanks').classList.remove('on')">Close</button>
+  </div>
+</div>
+
 <footer data-cfg="footer">The Inner Game · NoFiltr · Medellín · Saturday, October 3, 2026</footer>
 
 <!-- ============================================================
@@ -449,9 +488,11 @@ const CONFIG = {
   /* --- where every "Claim Your Seat" button points --- */
   /* generic "Claim Your Seat" buttons scroll here (the payment options) */
   scrollTarget: "#tickets",
-  /* Stripe checkout links — the actual payment buttons */
-  stripePremium: "https://buy.stripe.com/9B6fZhgMXb6jgV8ejR1B60s",
-  stripeVip:     "https://buy.stripe.com/3cI8wP2W7der20e5Nl1B60t",
+  /* Stripe EMBEDDED checkout — opens a dark modal on this domain (no redirect).
+     publishable key is public/safe. checkoutApi = the Vercel function base URL;
+     the tier -> price mapping and the secret key live server-side on Vercel. */
+  stripePublishableKey: "pk_live_51QkTtzHac1DEUQxGazguLPEKVhiOznKXoqDGkfGLOhLShIp1tlHmVUxXKx0aXwvDfzBOkYxu3A3okGLKcpMMYp1200Dvb30CCX",
+  checkoutApi: "https://inner-game-rho.vercel.app",
 
   /* --- countdown target: the moment the event starts (ISO 8601) ---
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
@@ -509,10 +550,9 @@ const CONFIG = {
 
   // generic "Claim Your Seat" -> smooth-scroll to the payment options (stays on the domain)
   document.querySelectorAll('.cta-scroll').forEach(a=>{ a.href = C.scrollTarget || '#tickets'; });
-  // Premium payment buttons -> Stripe checkout (same tab, returns to your site after)
-  document.querySelectorAll('.cta-premium').forEach(a=>{ if(C.stripePremium){ a.href = C.stripePremium; } });
-  // VIP payment buttons -> Stripe checkout
-  document.querySelectorAll('.cta-vip').forEach(a=>{ if(C.stripeVip){ a.href = C.stripeVip; } });
+  // Premium / VIP buttons -> open the embedded Stripe checkout modal (stays on this domain)
+  document.querySelectorAll('.cta-premium').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCheckout('premium');}));
+  document.querySelectorAll('.cta-vip').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCheckout('vip');}));
 
   // host photos
   (C.hostPhotos||[]).forEach((src,i)=>{
@@ -546,6 +586,47 @@ const CONFIG = {
     $('d').textContent=pad(d);$('h').textContent=pad(h);
     $('m').textContent=pad(m);$('s').textContent=pad(s);
     $('cdbar').textContent=`${d}d ${pad(h)}h ${pad(m)}m ${pad(s)}s`;},1000);
+
+  // ---- Embedded Stripe checkout (dark modal, never leaves this domain) ----
+  let coInstance=null;
+  window.openCheckout=async function(tier){
+    const modal=$('co-modal'), embed=$('co-embed'), err=$('co-err');
+    if(!C.checkoutApi || C.checkoutApi.indexOf('REPLACE')>-1){
+      alert('Checkout is being finalised — the payment endpoint is not set yet.'); return;
+    }
+    modal.classList.add('on'); document.body.style.overflow='hidden';
+    err.textContent=''; embed.innerHTML='<p class="co-load">Loading secure checkout…</p>';
+    try{
+      if(!window.Stripe) throw new Error('Payment library failed to load');
+      const stripe=Stripe(C.stripePublishableKey);
+      const resp=await fetch(C.checkoutApi.replace(/\/$/,'')+'/api/checkout-session',{
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier:tier})
+      });
+      const data=await resp.json().catch(()=>({}));
+      if(!resp.ok || !data.clientSecret) throw new Error(data.error||'Could not start checkout');
+      embed.innerHTML='';
+      if(coInstance){try{coInstance.destroy();}catch(e){}}
+      coInstance=await stripe.initEmbeddedCheckout({clientSecret:data.clientSecret});
+      coInstance.mount('#co-embed');
+    }catch(e){
+      embed.innerHTML='';
+      err.textContent=(e.message||'Something went wrong')+' — please try again, or email us to reserve.';
+    }
+  };
+  window.closeCheckout=function(){
+    $('co-modal').classList.remove('on'); document.body.style.overflow='';
+    if(coInstance){try{coInstance.destroy();}catch(e){} coInstance=null;}
+  };
+  $('co-close').addEventListener('click',window.closeCheckout);
+  $('co-backdrop').addEventListener('click',window.closeCheckout);
+  addEventListener('keydown',e=>{if(e.key==='Escape')window.closeCheckout();});
+
+  // ---- Stripe returns the browser here after payment: show the thank-you ----
+  const qp=new URLSearchParams(location.search);
+  if(qp.get('checkout')==='complete'){
+    const ok=$('co-thanks'); if(ok) ok.classList.add('on');
+    history.replaceState({},'',location.pathname);
+  }
 })();
 </script>
 </body>
