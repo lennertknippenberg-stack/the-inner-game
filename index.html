@@ -195,7 +195,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 <div class="bar" id="bar">
   <span class="t" data-cfg="barTitle">The Inner Game · NoFiltr</span>
   <span class="cd" id="cdbar">00</span>
-  <a class="btn small cta-link" href="#">Claim Your Seat</a>
+  <a class="btn small cta-scroll" href="#tickets">Claim Your Seat</a>
 </div>
 
 <header class="hero">
@@ -207,7 +207,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
     <p class="sub rv" data-cfg-html="subhead">A full day exploring the psychology, subconscious patterns, and identity shifts behind <em>exceptional performance</em>, with the expertise of 7- and 8-figure founders in the room.</p>
     <p class="meta rv" data-cfg-html="meta">Full-Day <span>·</span> Medellín <span>·</span> Saturday, October 3, 2026 <span>·</span> 10AM-6PM</p>
     <div class="cta rv">
-      <a class="btn cta-link" href="#" data-cfg="ctaPrimary">Claim Your Seat →</a>
+      <a class="btn cta-scroll" href="#tickets" data-cfg="ctaPrimary">Claim Your Seat →</a>
       <span class="scarce" data-cfg-html="scarcity"><b>Only 30 seats</b> · $397, VIP $496</span>
     </div>
   </div>
@@ -396,14 +396,14 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
         <h3>The Room</h3>
         <div class="p">$397</div>
         <p class="s">Full day, 10-6 · light lunch included · the room, live</p>
-        <a class="btn cta-link" href="#">Claim Your Seat →</a>
+        <a class="btn cta-premium" href="#">Claim Your Seat →</a>
       </div>
       <div class="tier co rv">
         <span class="tag">12 seats only</span>
         <h3>VIP</h3>
         <div class="p">$496</div>
         <p class="s">Everything in The Room + the VIP Sensorial Dinner in the evening</p>
-        <a class="btn orange cta-link" href="#">Claim VIP →</a>
+        <a class="btn orange cta-vip" href="#">Claim VIP →</a>
       </div>
     </div>
     <p class="anchor rv">Coaching at this level runs easily at <b>$500–$1,000 an hour.</b> This is a full day in the room, with 7- and 8-figure founders, for less than a dinner out in Poblado.</p>
@@ -433,8 +433,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   <h2 class="cond rv" data-cfg-html="finalTitle">Become the founder<br>your business requires.</h2>
   <p class="rv" data-cfg="finalSub">Saturday · Medellín · 30 seats. The Inner Game is where the next level actually starts.</p>
   <div class="cta rv" style="justify-content:center;gap:16px">
-    <a class="btn cta-link" href="#">Save My Seat — $397</a>
-    <a class="btn cta-link" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
+    <a class="btn cta-premium" href="#">Save My Seat — $397</a>
+    <a class="btn cta-vip" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
   </div>
 </div>
 
@@ -447,7 +447,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 <script>
 const CONFIG = {
   /* --- where every "Claim Your Seat" button points --- */
-  ctaUrl: "https://lu.ma/q50e717w",
+  /* generic "Claim Your Seat" buttons scroll here (the payment options) */
+  scrollTarget: "#tickets",
+  /* Stripe checkout links — the actual payment buttons */
+  stripePremium: "https://buy.stripe.com/9B6fZhgMXb6jgV8ejR1B60s",
+  stripeVip:     "https://buy.stripe.com/3cI8wP2W7der20e5Nl1B60t",
 
   /* --- countdown target: the moment the event starts (ISO 8601) ---
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
@@ -503,10 +507,12 @@ const CONFIG = {
     document.querySelectorAll('[data-cfg-html="'+k+'"]').forEach(el=>el.innerHTML=v);
   }
 
-  // every CTA button -> ctaUrl
-  document.querySelectorAll('.cta-link').forEach(a=>{
-    a.href = C.ctaUrl; a.target = "_blank"; a.rel = "noopener";
-  });
+  // generic "Claim Your Seat" -> smooth-scroll to the payment options (stays on the domain)
+  document.querySelectorAll('.cta-scroll').forEach(a=>{ a.href = C.scrollTarget || '#tickets'; });
+  // Premium payment buttons -> Stripe checkout (same tab, returns to your site after)
+  document.querySelectorAll('.cta-premium').forEach(a=>{ if(C.stripePremium){ a.href = C.stripePremium; } });
+  // VIP payment buttons -> Stripe checkout
+  document.querySelectorAll('.cta-vip').forEach(a=>{ if(C.stripeVip){ a.href = C.stripeVip; } });
 
   // host photos
   (C.hostPhotos||[]).forEach((src,i)=>{
