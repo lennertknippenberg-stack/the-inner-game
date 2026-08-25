@@ -25,6 +25,7 @@ body{background:var(--bg);color:var(--bone);font-family:'Inter',sans-serif;line-
 body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.04;z-index:99;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .cond{font-family:'Oswald',sans-serif;text-transform:uppercase}
 .script{font-family:'Great Vibes',cursive;font-weight:400}
+@font-face{font-family:'Photograph Signature';src:url('fonts/photograph-signature.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
 .wrap{max-width:960px;margin:0 auto;padding:0 24px}
 /* labels */
 .lab{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:14px;margin-bottom:20px}
@@ -110,11 +111,14 @@ h2 .o{color:var(--orange)}
 .hostgrid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start;z-index:2}
 .host{text-align:center}
 .host .ph{width:140px;height:140px;border-radius:50%;margin:0 auto 20px;background:linear-gradient(150deg,#2b241a,#171310);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);box-shadow:0 18px 40px rgba(0,0,0,.5);background-size:cover;background-position:center}
-.host .sig{font-family:'Great Vibes',cursive;font-size:46px;color:var(--gold);line-height:1;margin-bottom:8px}
+.host .sig{font-family:'Photograph Signature','Great Vibes',cursive;font-size:52px;color:var(--gold);line-height:1;margin-bottom:8px}
 .host .nm{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:15px;letter-spacing:.18em;font-weight:600}
 .host .rl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-top:6px;font-weight:600;line-height:1.5}
 .hostline{position:relative;z-index:2;text-align:center;margin-top:40px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.24em;font-size:13px;color:var(--champ)}
 .hostline b{color:var(--gold)}
+.host.mystery .ph{border-style:dashed;border-color:var(--goldline);background:linear-gradient(150deg,#191510,#100d09);font-family:'Oswald',sans-serif;font-size:64px;font-weight:600;color:var(--gold);opacity:.65}
+.host.mystery .sig{opacity:.4}
+.host.mystery .rl{color:var(--dim)}
 /* mission band */
 .mission{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .mission .in{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
@@ -200,7 +204,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
     <p class="eyebrow rv" data-cfg-html="eyebrow">A Live Experience · <b>NoFiltr</b></p>
     <div class="eyerule rv"></div>
     <h1 class="rv" data-cfg-html="headline"><span class="g">The Inner Game:</span><br>How high-level founders actually win</h1>
-    <p class="sub rv" data-cfg-html="subhead">A full day exploring the psychology, subconscious patterns, and identity shifts behind <em>exceptional performance</em>, with the expertise of nine-figure founders in the room.</p>
+    <p class="sub rv" data-cfg-html="subhead">A full day exploring the psychology, subconscious patterns, and identity shifts behind <em>exceptional performance</em>, with the expertise of 7- and 8-figure founders in the room.</p>
     <p class="meta rv" data-cfg-html="meta">Full-Day <span>·</span> Medellín <span>·</span> Saturday, October 3, 2026 <span>·</span> 10AM-6PM</p>
     <div class="cta rv">
       <a class="btn cta-link" href="#" data-cfg="ctaPrimary">Claim Your Seat →</a>
@@ -251,14 +255,6 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 
 <section style="padding-top:20px">
   <div class="wrap">
-    <p class="lab rv">The Film</p>
-    <h2 class="rv">Ninety seconds in <span class="g">the room</span></h2>
-    <div class="video rv" id="video"><div class="ring"></div><span>Promo film · 60-90s · slot</span></div>
-  </div>
-</section>
-
-<section style="padding-top:20px">
-  <div class="wrap">
     <div class="twocol rv">
       <div class="col">
         <h3>What You'll Discover</h3>
@@ -300,16 +296,16 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
           <div class="ph">Photo · Zach</div>
           <div class="sig">Zach</div>
           <div class="nm">Zach Oehlman</div>
-          <div class="rl">Fractional CFO<br>$5M-$100M</div>
+          <div class="rl">CFO<br>Team manages $5M–$100M</div>
         </div>
-        <div class="host" data-host="2">
-          <div class="ph">Photo · Jason</div>
-          <div class="sig">Jason</div>
-          <div class="nm">Jason Sakach</div>
-          <div class="rl">Founder, Our Centerline<br>Fractional CSO &amp; COO</div>
+        <div class="host mystery" data-host="2">
+          <div class="ph">?</div>
+          <div class="sig">?</div>
+          <div class="nm">Mystery Guest</div>
+          <div class="rl">To be revealed</div>
         </div>
       </div>
-      <p class="hostline" data-cfg-html="hostline">Real strategies · <b>6,000+ hours of combined coaching</b> · nine-figure founders in the room</p>
+      <p class="hostline" data-cfg-html="hostline">Real strategies · <b>15,000+ hours of combined coaching</b> · 7- and 8-figure founders in the room</p>
     </div>
   </div>
 </section>
@@ -332,7 +328,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 <section>
   <div class="wrap">
     <p class="lab rv">The Approach</p>
-    <h2 class="rv">Uncover. Rewire. <span class="g">Realign. Expand.</span></h2>
+    <h2 class="rv">Uncover. Release. <span class="g">Realign. Expand.</span></h2>
     <div class="appr">
       <div class="ap rv">
         <p class="n">01</p>
@@ -342,7 +338,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
       <div class="ap rv">
         <p class="n">02</p>
         <svg viewBox="0 0 48 48"><path d="M17 8 a10 10 0 0 0-6 18 a8 8 0 0 0 8 12 h10 a9 9 0 0 0 8-13 a10 10 0 0 0-8-17 a8 8 0 0 0-12 0z"/><path d="M20 18 c3 2 3 8 0 12 M28 16 c-3 3-3 9 0 14"/></svg>
-        <h3>Rewire</h3><p>We reprogram your subconscious and nervous system for clarity and confidence.</p>
+        <h3>Release</h3><p>We clear the internal resistance and nervous-system patterns holding you back, so clarity and confidence come naturally.</p>
       </div>
       <div class="ap rv">
         <p class="n">03</p>
@@ -366,7 +362,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
       <div class="ag rv"><span class="p">Part 01</span><div><h3>Why High Performers Hold Back</h3><p class="d">The neuroscience of inconsistency and the hidden identity patterns running underneath it.</p></div></div>
       <div class="ag rv"><span class="p">Part 02</span><div><h3>Rewiring the Founder</h3><p class="d">Identity engineering, nervous-system regulation, and eliminating internal resistance.</p></div></div>
       <div class="ag rv"><span class="p">Part 03</span><div><h3>The Founder Operating System</h3><p class="d">Personal systems, decision-making frameworks, consistency without relying on motivation.</p></div></div>
-      <div class="ag rv"><span class="p">Part 04</span><div><h3>Live Breakthrough</h3><p class="d">Interactive coaching, real-time implementation, and subconscious reprogramming, live in the room.</p></div></div>
+      <div class="ag rv"><span class="p">Part 04</span><div><h3>Live Breakthrough</h3><p class="d">Interactive coaching, real-time implementation, and subconscious shifts, live in the room.</p></div></div>
       <div class="ag rv"><span class="p">Part 05</span><div><h3>Integration</h3><p class="d">Locking the shift in, turning one day in the room into the way you operate after it.</p></div></div>
     </div>
   </div>
@@ -410,7 +406,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
         <a class="btn orange cta-link" href="#">Claim VIP →</a>
       </div>
     </div>
-    <p class="anchor rv">Coaching at this level runs <b>€500-€1,000 an hour.</b> This is a full day in the room, with nine-figure founders, for less than a dinner out in Poblado.</p>
+    <p class="anchor rv">Coaching at this level runs easily at <b>$500–$1,000 an hour.</b> This is a full day in the room, with 7- and 8-figure founders, for less than a dinner out in Poblado.</p>
   </div>
 </section>
 
@@ -435,7 +431,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   </svg>
   <h2 class="cond rv" data-cfg-html="finalTitle">Become the founder<br>your business requires.</h2>
   <p class="rv" data-cfg="finalSub">Saturday · Medellín · 30 seats. The Inner Game is where the next level actually starts.</p>
-  <a class="btn rv cta-link" href="#" data-cfg="finalCta">Save My Seat →</a>
+  <div class="cta rv" style="justify-content:center;gap:16px">
+    <a class="btn cta-link" href="#">Save My Seat — $397</a>
+    <a class="btn cta-link" href="#" style="background:transparent;color:#171205;border:1.5px solid #171205">VIP + Dinner — $496</a>
+  </div>
 </div>
 
 <footer data-cfg="footer">The Inner Game · NoFiltr · Medellín · Saturday, October 3, 2026</footer>
@@ -463,7 +462,7 @@ const CONFIG = {
   videoEmbedUrl: "",   // e.g. "https://www.youtube.com/embed/XXXXXXXX"
 
   /* --- optional host photos: paste image URLs to replace the "Photo ·" placeholders --- */
-  hostPhotos: ["lennert.jpg", "zach.png", "jason.jpg"],   // [ lennert, zach, jason ]
+  hostPhotos: ["lennert.jpg", "zach.png", ""],   // [ lennert, zach, mystery-guest (no photo) ]
 
   /* --- copy: only the fields most likely to change per event.
          HTML is allowed in these strings (used to keep gold/orange accents). --- */
@@ -471,7 +470,7 @@ const CONFIG = {
     barTitle:     "The Inner Game · NoFiltr",
     eyebrow:      "A Live Experience · <b>NoFiltr</b>",
     headline:     '<span class="g">The Inner Game:</span><br>How high-level founders actually win',
-    subhead:      "A full day exploring the psychology, subconscious patterns, and identity shifts behind <em>exceptional performance</em>, with the expertise of nine-figure founders in the room.",
+    subhead:      "A full day exploring the psychology, subconscious patterns, and identity shifts behind <em>exceptional performance</em>, with the expertise of 7- and 8-figure founders in the room.",
     meta:         'Full-Day <span>·</span> Medellín <span>·</span> Saturday, October 3, 2026 <span>·</span> 10AM-6PM',
     ctaPrimary:   "Claim Your Seat →",
     scarcity:     "<b>Only 30 seats</b> · $397, VIP $496",
@@ -479,7 +478,7 @@ const CONFIG = {
     premiseTitle: 'Most founders don\'t need another strategy.<br><span class="o">They need to stop fighting themselves.</span>',
     premiseSub:   "When you remove internal resistance, everything changes.",
     premiseClose: "That's the Inner Game.",
-    hostline:     "Real strategies · <b>6,000+ hours of combined coaching</b> · nine-figure founders in the room",
+    hostline:     "Real strategies · <b>15,000+ hours of combined coaching</b> · 7- and 8-figure founders in the room",
     missionTitle: "We put ambitious founders next to the right people, and clear the subconscious patterns holding them <b>below their potential.</b>",
     finalTitle:   "Become the founder<br>your business requires.",
     finalSub:     "Saturday · Medellín · 30 seats. The Inner Game is where the next level actually starts.",
