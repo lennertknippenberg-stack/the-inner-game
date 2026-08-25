@@ -445,11 +445,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
      ============================================================ -->
 <script>
 const CONFIG = {
-  /* --- the two Tally forms (open as a popup ON this page, never leaving it) ---
-     Premium (regular) buttons -> ctaUrl ; VIP buttons -> ctaVipUrl.
-     Paste each form's Tally share link (e.g. https://tally.so/r/abc123). */
-  ctaUrl:    "https://tally.so/r/44VLzX",
-  ctaVipUrl: "https://tally.so/r/VLOVyv",
+  /* --- checkout: buttons go to Stripe first, then Stripe redirects to the Tally form ---
+     Premium (regular) buttons -> ctaUrl ; VIP buttons -> ctaVipUrl. */
+  ctaUrl:    "https://buy.stripe.com/9B6fZhgMXb6jgV8ejR1B60s",   // Premium
+  ctaVipUrl: "https://buy.stripe.com/3cI8wP2W7der20e5Nl1B60t",   // VIP
 
   /* --- countdown target: the moment the event starts (ISO 8601) ---
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
@@ -505,23 +504,11 @@ const CONFIG = {
     document.querySelectorAll('[data-cfg-html="'+k+'"]').forEach(el=>el.innerHTML=v);
   }
 
-  // Load Tally's embed script so forms can open as a popup over this page.
-  (function(){ var s=document.createElement('script'); s.src="https://tally.so/widgets/embed.js"; document.head.appendChild(s); })();
-
-  // CTA buttons open the Tally form as a modal ON this page (no navigation away).
-  // VIP buttons (.cta-vip) open the VIP form; the rest open Premium.
-  // Falls back to a new-tab link if the embed script is blocked.
-  const formId = u => (u||"").split('?')[0].replace(/\/$/,'').split('/').pop();
+  // CTA buttons -> Stripe checkout. VIP buttons (.cta-vip) get the VIP link; the rest get Premium.
+  // After payment, Stripe redirects the buyer to the matching Tally questionnaire (set in Stripe).
   document.querySelectorAll('.cta-link').forEach(a=>{
-    const url = a.classList.contains('cta-vip') ? C.ctaVipUrl : C.ctaUrl;
-    const id  = formId(url);
-    a.href = url; a.rel = "noopener";
-    a.addEventListener('click', e=>{
-      if (window.Tally && Tally.openPopup) {
-        e.preventDefault();
-        Tally.openPopup(id, { layout:"modal", width:700, overlay:true });
-      } // else: let the href open the form in a new tab as fallback
-    });
+    a.href = a.classList.contains('cta-vip') ? C.ctaVipUrl : C.ctaUrl;
+    a.rel = "noopener";
   });
 
   // host photos
