@@ -205,6 +205,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 .co-tick{width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
 .co-thankspanel h3{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
 .co-thankspanel p{color:var(--dim);font-size:14px;max-width:42ch;margin:0 auto 24px;line-height:1.6}
+/* seats-sold scarcity meter */
+.seats{margin:38px 0 6px;max-width:520px}
+.seats-row{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:var(--bone);margin-bottom:12px}
+.seats-row b{color:var(--gold);font-size:16px}
+.seats-track{height:8px;background:rgba(242,240,236,.07);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.seats-fill{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:20px;transition:width 1.3s cubic-bezier(.19,1,.22,1)}
 </style>
 <script src="https://js.stripe.com/v3/"></script>
 </head>
@@ -402,6 +408,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
     <p class="lab rv">Reserve Your Seat</p>
     <h2 class="rv">30 seats. <span class="g">One price for the room.</span></h2>
     <p class="tierlead rv">I could tier this a dozen ways and make more. I don't. Everyone in this room gets the same experience, no better seat, no inner ring you pay past. <b>One price for the work; one optional upgrade if you want the dinner.</b></p>
+    <div class="seats rv">
+      <div class="seats-row" id="seats-text">10 of 30 claimed</div>
+      <div class="seats-track"><div class="seats-fill" id="seats-fill"></div></div>
+    </div>
     <div class="cdrow rv">
       <div class="u"><div class="n" id="d">00</div><div class="l">Days</div></div>
       <div class="u"><div class="n" id="h">00</div><div class="l">Hours</div></div>
@@ -498,6 +508,11 @@ const CONFIG = {
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
   eventStart: "2026-10-03T10:00:00-05:00",
 
+  /* seats scarcity meter — set these by hand for now (live Stripe count can feed it later) */
+  seatsTotal: 30,
+  seatsSold: 10,
+  seatsLabel: "claimed",   // "claimed" -> "10 of 30 claimed"   ·   "left" -> "20 left"
+
   /* --- brand colors: override any CSS variable, or delete keys to keep defaults --- */
   colors: {
     // bg: "#0d0d0d", bg2: "#121212", bone: "#f2f0ec", champ: "#d8c69a",
@@ -581,6 +596,19 @@ const CONFIG = {
   const T=new Date(C.eventStart).getTime();
   const pad=n=>String(n).padStart(2,'0');
   const $=id=>document.getElementById(id);
+
+  // seats scarcity meter (manual now; a live Stripe count can feed the same bar later)
+  (function(){
+    const total=Math.max(1, C.seatsTotal||30);
+    const sold=Math.min(total, Math.max(0, C.seatsSold||0));
+    const left=total-sold;
+    const txt=$('seats-text');
+    if(txt) txt.innerHTML = (C.seatsLabel==='left')
+      ? '<b>'+left+'</b> seats left'
+      : '<b>'+sold+'</b> of '+total+' claimed';
+    const fill=$('seats-fill');
+    if(fill) setTimeout(()=>{ fill.style.width=Math.round(sold/total*100)+'%'; }, 400);
+  })();
   setInterval(()=>{let r=Math.max(0,T-Date.now());
     const d=Math.floor(r/864e5),h=Math.floor(r%864e5/36e5),m=Math.floor(r%36e5/6e4),s=Math.floor(r%6e4/1e3);
     $('d').textContent=pad(d);$('h').textContent=pad(h);
