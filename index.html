@@ -504,6 +504,12 @@ const CONFIG = {
   stripePublishableKey: "pk_live_51QkTtzHac1DEUQxGazguLPEKVhiOznKXoqDGkfGLOhLShIp1tlHmVUxXKx0aXwvDfzBOkYxu3A3okGLKcpMMYp1200Dvb30CCX",
   checkoutApi: "https://inner-game-rho.vercel.app",
 
+  /* Special offer links — /?offer=<key> auto-opens checkout with the Stripe promo code pre-applied.
+     The code must exist as an ACTIVE Promotion code in Stripe. Add more keys anytime. */
+  offers: {
+    vipdinner: { tier: "vip", discount: "JVH" },   // $50 off VIP · link: innergame.nofiltr.io/?offer=vipdinner
+  },
+
   /* --- countdown target: the moment the event starts (ISO 8601) ---
      -05:00 is Colombia (Medellín) time. Change the offset for other cities. */
   eventStart: "2026-10-03T10:00:00-05:00",
@@ -617,7 +623,8 @@ const CONFIG = {
 
   // ---- Embedded Stripe checkout (dark modal, never leaves this domain) ----
   let coInstance=null;
-  window.openCheckout=async function(tier){
+  window.openCheckout=async function(tier, opts){
+    opts = opts || {};
     const modal=$('co-modal'), embed=$('co-embed'), err=$('co-err');
     if(!C.checkoutApi || C.checkoutApi.indexOf('REPLACE')>-1){
       alert('Checkout is being finalised — the payment endpoint is not set yet.'); return;
@@ -628,7 +635,7 @@ const CONFIG = {
       if(!window.Stripe) throw new Error('Payment library failed to load');
       const stripe=Stripe(C.stripePublishableKey);
       const resp=await fetch(C.checkoutApi.replace(/\/$/,'')+'/api/checkout-session',{
-        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier:tier})
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier:tier, discount:opts.discount||undefined})
       });
       const data=await resp.json().catch(()=>({}));
       if(!resp.ok || !data.clientSecret) throw new Error(data.error||'Could not start checkout');
@@ -654,6 +661,13 @@ const CONFIG = {
   if(qp.get('checkout')==='complete'){
     const ok=$('co-thanks'); if(ok) ok.classList.add('on');
     history.replaceState({},'',location.pathname);
+  }
+
+  // ---- Special offer links: e.g. /?offer=vipdinner opens checkout with a discount pre-applied ----
+  const offerKey=qp.get('offer');
+  if(offerKey && C.offers && C.offers[offerKey]){
+    const o=C.offers[offerKey];
+    setTimeout(()=>openCheckout(o.tier||'vip', {discount:o.discount}), 200);
   }
 })();
 </script>
