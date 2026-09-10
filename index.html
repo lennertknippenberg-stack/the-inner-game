@@ -306,7 +306,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 <section style="padding-top:30px">
   <div class="wrap">
     <p class="lab rv">Hosted By</p>
-    <h2 class="rv">Three experts. <span class="o">One room.</span></h2>
+    <h2 class="rv">Two experts. <span class="o">One room.</span> <span style="color:var(--dim);font-weight:400">For now.</span></h2>
     <div class="hostblock rv">
       <div class="brush"></div>
       <div class="hostgrid">
@@ -316,17 +316,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
           <div class="nm">Lennert Knippenberg</div>
           <div class="rl">Host · Founder, NoFiltr</div>
         </div>
+        <div class="hostdiv"></div>
         <div class="host" data-host="1">
           <div class="ph">Photo · Zach</div>
           <div class="sig">Zach</div>
           <div class="nm">Zach Oehlman</div>
           <div class="rl">CFO<br>Team manages client portfolios between $5M and $100M</div>
-        </div>
-        <div class="host mystery" data-host="2">
-          <div class="ph">?</div>
-          <div class="sig">?</div>
-          <div class="nm">Mystery Guest</div>
-          <div class="rl">To be revealed</div>
         </div>
       </div>
       <p class="hostline" data-cfg-html="hostline">Real strategies · <b>15,000+ hours of combined coaching</b> · the top 1% in the room</p>
@@ -389,6 +384,18 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   </div>
 </section>
 
+<section style="padding-top:20px">
+  <div class="wrap">
+    <p class="lab rv">Why me</p>
+    <h2 class="rv">Why the fuck would you spend<br>a morning with <span class="o">me?</span></h2>
+    <div class="rv" style="max-width:60ch;margin-top:26px;font-size:clamp(16px,2vw,18px);line-height:1.7;color:var(--dim)">
+      <p>You don't have to. That's the point — free will. Maybe you don't know me yet. Good — that's the invitation.</p>
+      <p style="margin-top:18px">Anyone in my inner circle will tell you I run warm. <em style="font-style:normal;color:var(--gold)">Calido.</em> That's why lunch is on me — I didn't have to include it. I did, because the best connection happens after the room, breaking bread together.</p>
+      <p style="margin-top:18px;color:var(--bone)">Under the strategy and the systems, what you actually need is connection. That's what this half-day is for.</p>
+    </div>
+  </div>
+</section>
+
 <section id="tickets" style="background:var(--bg2);border-top:1px solid var(--line)">
   <div class="wrap">
     <p class="lab rv">Reserve Your Seat</p>
@@ -404,10 +411,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
       <div class="u"><div class="n" id="m">00</div><div class="l">Minutes</div></div>
       <div class="u"><div class="n" id="s">00</div><div class="l">Seconds</div></div>
     </div>
-    <div class="tix" id="tix" style="grid-template-columns:minmax(0,420px);justify-content:center">
+    <div class="tix" id="tix" style="grid-template-columns:minmax(0,420px);justify-content:start">
       <div class="tier hot rv">
         <span class="tag">Available Now</span>
-        <h3>The Room</h3>
+        <h3>Premium</h3>
         <div class="p">$199</div>
         <p class="s">Half-day, 9–2 · a very well-catered lunch · the room, live</p>
         <a class="btn cta-premium" href="#">Claim Your Seat →</a>
@@ -423,7 +430,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
     <h2 class="rv">The honest <span class="o">FAQ</span></h2>
     <div class="faq rv">
       <details><summary>Where exactly is it?</summary><p>A premium venue in Medellín, video-ready, proper sound, built for 25. The exact address is sent to ticket holders the week of the event.</p></details>
-      <details><summary>How do we get there?</summary><p>Transportation is included. We depart together from a central meeting point in El Poblado and bring you back after — no navigating unfamiliar roads on the day. The exact pickup spot and time are sent to ticket holders the week of the event.</p></details>
+      <details><summary>How do we get there?</summary><p>A quick cab ride from El Poblado — the venue's close and easy to reach. The exact address is sent to ticket holders the week of the event.</p></details>
       <details><summary>What time does it run?</summary><p>Doors 8:30am. We run 9:00am–2:00pm — one engineered half-day.</p></details>
       <details><summary>What language is it in?</summary><p>English.</p></details>
       <details><summary>Is food included?</summary><p>Coffee and refreshments are covered, and a very well-catered lunch is included.</p></details>
@@ -507,7 +514,7 @@ const CONFIG = {
   videoEmbedUrl: "",   // e.g. "https://www.youtube.com/embed/XXXXXXXX"
 
   /* --- optional host photos: paste image URLs to replace the "Photo ·" placeholders --- */
-  hostPhotos: ["lennert.jpg", "zach.png", ""],   // [ lennert, zach, mystery-guest (no photo) ]
+  hostPhotos: ["lennert.jpg", "zach.png"],   // [ lennert, zach ]
 
   /* --- copy: only the fields most likely to change per event.
          HTML is allowed in these strings (used to keep gold/orange accents). --- */
