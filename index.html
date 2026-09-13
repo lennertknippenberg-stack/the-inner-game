@@ -214,7 +214,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
 /* who-am-i two-column with photo */
 .whoami{display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;margin-top:30px}
 .whoami .edge{margin-top:0}
-.whoami-photo img{width:100%;border:1px solid var(--goldline);display:block;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.whoami-photo img{width:100%;max-height:600px;object-fit:cover;object-position:center;border:1px solid var(--goldline);display:block;box-shadow:0 20px 50px rgba(0,0,0,.45)}
 @media(max-width:760px){.whoami{grid-template-columns:1fr;gap:26px}}
 </style>
 <script src="https://js.stripe.com/v3/"></script>
@@ -269,19 +269,6 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
   </div>
 </div>
 
-<section style="padding-bottom:40px">
-  <div class="wrap">
-    <p class="lab rv">The Real Edge</p>
-    <h2 class="rv">The edge is who you're <span class="g">standing next to.</span></h2>
-    <div class="edge rv">
-      <p>You already have the information. So does everyone, that stopped being the advantage a long time ago.</p>
-      <p>What moves you now is the room you're standing in. The right person with the right answer, faster than you'd ever reach it alone. The decision you'd sit on for a month, made in one honest conversation with someone already on the other side of it.</p>
-      <p><b>That's what this half-day is for.</b> Not more to know, the people who change what you do with what you already know.</p>
-    </div>
-    <div class="roomshot rv"><img src="room.jpg" alt="Founders in the room"></div>
-  </div>
-</section>
-
 <section style="padding-top:20px">
   <div class="wrap">
     <p class="lab rv">The honest part</p>
@@ -294,7 +281,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-fa
         <p>Why only half a day? A full day is a lot to ask from someone you don't know yet, so we keep it intense and compressed. We do the real work, then we break bread together. I didn't have to include lunch. I did, because this is you becoming part of the circle. The movement.</p>
         <p><b>You leave satisfied. Nourished, mentally, spiritually, physically. And you've still got the whole afternoon ahead of you.</b></p>
       </div>
-      <div class="whoami-photo"><img src="momentum.jpg" alt="Lennert coaching momentum at the board"></div>
+      <div class="whoami-photo"><img src="room.jpg" alt="Founders in the room"></div>
     </div>
   </div>
 </section>
