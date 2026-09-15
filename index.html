@@ -540,9 +540,8 @@ const CONFIG = {
 
   // generic "Claim Your Seat" -> smooth-scroll to the payment options (stays on the domain)
   document.querySelectorAll('.cta-scroll').forEach(a=>{ a.href = C.scrollTarget || '#tickets'; });
-  // Premium / VIP buttons -> open the embedded Stripe checkout modal (stays on this domain)
+  // Premium button -> open the embedded Stripe checkout modal (stays on this domain)
   document.querySelectorAll('.cta-premium').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCheckout('premium');}));
-  document.querySelectorAll('.cta-vip').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openCheckout('vip');}));
 
   // host photos
   (C.hostPhotos||[]).forEach((src,i)=>{
@@ -636,7 +635,7 @@ const CONFIG = {
   const offerKey=qp.get('offer');
   if(offerKey && C.offers && C.offers[offerKey]){
     const o=C.offers[offerKey];
-    setTimeout(()=>openCheckout(o.tier||'vip', {discount:o.discount}), 200);
+    setTimeout(()=>openCheckout(o.tier||'premium', {discount:o.discount}), 200);
   }
 })();
 </script>
