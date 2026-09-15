@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're in — The Inner Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--bone:#f2f0ec;--gold:#C5A55A;--orange:#C5541A;--dim:#9a938a;--line:rgba(242,240,236,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--bone);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.top{padding:30px 24px 20px;text-align:center;border-bottom:1px solid var(--line)}
+.tick{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font-size:27px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.top h1{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:22px;font-weight:600}
+.top p{color:var(--dim);font-size:14px;line-height:1.6;margin-top:10px;max-width:54ch;margin-left:auto;margin-right:auto}
+.top b{color:var(--gold)}
+.frame{flex:1 1 auto;width:100%;min-height:72vh;display:flex}
+iframe{width:100%;height:100%;min-height:72vh;border:0;background:transparent}
+.fallback{padding:20px;text-align:center;font-size:14px;color:var(--dim)}
+.fallback a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="tick">✓</div>
+  <h1>You're in.</h1>
+  <p>Payment confirmed. <b>One last step:</b> a few quick questions so we can prepare the room for you. It takes under two minutes.</p>
+</div>
+<div class="frame">
+  <iframe id="tally" data-tally-src="https://tally.so/r/VLOVyv?transparentBackground=1" title="The Inner Game — onboarding" allow="clipboard-write" loading="eager"></iframe>
+</div>
+<noscript><div class="fallback">Please continue here: <a href="https://tally.so/r/VLOVyv">tally.so/r/VLOVyv</a></div></noscript>
+<script>
+(function(){
+  var f = document.getElementById('tally');
+  var src = f.getAttribute('data-tally-src');
+  if (f && !f.getAttribute('src')) { f.setAttribute('src', src); }
+})();
+</script>
+<script async src="https://tally.so/widgets/embed.js" onload="try{Tally.loadEmbeds()}catch(e){}"></script>
+</body>
+</html>
